@@ -12,6 +12,8 @@ public class BaleiaSeguirRato : MonoBehaviour
 
     private Vector3 targetPos;
 
+    private bool shieldActive = false;
+
     void Start()
     {
         // Esconde o cursor
@@ -53,4 +55,12 @@ public class BaleiaSeguirRato : MonoBehaviour
         move.z = forwardSpeed * Time.fixedDeltaTime;
         transform.position += move;
     }
+
+    public void SetShield(bool active)
+    {
+        shieldActive = active;
+    }
+
+    // Depois, no teu código de colisão/dano, verifica shieldActive:
+    // if (shieldActive) { /* ignora dano */ }
 }
