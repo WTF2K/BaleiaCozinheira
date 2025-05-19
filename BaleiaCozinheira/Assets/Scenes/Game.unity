@@ -462,7 +462,7 @@ MonoBehaviour:
   cameraReference: {fileID: 1105344496}
   followSpeed: 1.5
   forwardSpeed: 1.5
-  depthOffset: 10
+  depthOffset: 0
 --- !u!54 &1220581348
 Rigidbody:
   m_ObjectHideFlags: 0

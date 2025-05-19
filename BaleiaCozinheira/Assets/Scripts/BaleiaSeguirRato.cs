@@ -23,6 +23,7 @@ public class BaleiaSeguirRato : MonoBehaviour
         // Interseção com o plano
         if (movementPlane.Raycast(ray, out float distance))
         {
+            Debug.DrawLine(ray.origin, ray.GetPoint(distance), Color.red); // Debug: linha do raio
             targetWorldPos = ray.GetPoint(distance);
         }
 
