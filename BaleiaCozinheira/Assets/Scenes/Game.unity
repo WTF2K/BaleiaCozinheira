@@ -724,9 +724,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 1934835746}
   offset: {x: 0, y: 2, z: -10}
-<<<<<<< Updated upstream
-  followSpeed: 20
-=======
   followSpeed: 1.5
 --- !u!1 &1126616264
 GameObject:
@@ -839,7 +836,6 @@ Transform:
   - {fileID: 387497580}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
->>>>>>> Stashed changes
 --- !u!1 &1220581345
 GameObject:
   m_ObjectHideFlags: 0
@@ -874,7 +870,6 @@ Transform:
   - {fileID: 2004281476}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-<<<<<<< Updated upstream
 --- !u!114 &1220581347
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -892,8 +887,6 @@ MonoBehaviour:
   depth: 10
   deadZoneDistance: 0.15
   protectionMargin: 0.1
-=======
->>>>>>> Stashed changes
 --- !u!54 &1220581348
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1068,14 +1061,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!222 &1642043924
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1642043921}
-  m_CullTransparentMesh: 1
 --- !u!1 &1686109998
 GameObject:
   m_ObjectHideFlags: 0
@@ -1143,14 +1128,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!222 &1686110001
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1686109998}
-  m_CullTransparentMesh: 1
 --- !u!1 &1774353268
 GameObject:
   m_ObjectHideFlags: 0
