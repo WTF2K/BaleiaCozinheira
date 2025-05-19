@@ -462,6 +462,8 @@ MonoBehaviour:
   moveSpeed: 5
   forwardSpeed: 1.5
   depth: 10
+  deadZoneDistance: 0.15
+  protectionMargin: 0.1
 --- !u!54 &1220581348
 Rigidbody:
   m_ObjectHideFlags: 0
