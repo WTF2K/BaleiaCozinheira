@@ -3,23 +3,23 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    public void StartGame(int characterIndex)
+    public void StartGame()
     {
         SceneManager.LoadScene("Game");
     }
-    public void GoToScoreBoard(int characterIndex)
+    public void GoToScoreBoard()
     {
         SceneManager.LoadScene("Scoreboard");
     }
-    public void GoToOptions(int characterIndex)
+    public void GoToOptions()
     {
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene("Options");
     }
-    public void GoToCredits(int characterIndex)
+    public void GoToCredits()
     {
         SceneManager.LoadScene("Credits");
     }
-    public void ExitGame(int characterIndex)
+    public void ExitGame()
     {
         Application.Quit();
     }
