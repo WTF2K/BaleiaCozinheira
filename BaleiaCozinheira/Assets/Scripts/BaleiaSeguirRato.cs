@@ -2,7 +2,7 @@
 
 public class BaleiaSeguirRato : MonoBehaviour
 {
-    public float moveSpeed = 5f;
+    public float moveSpeed = 2f;
     public float forwardSpeed = 2f;
     public float depth = 10f;
     public float deadZoneDistance = 0.01f;
@@ -11,7 +11,6 @@ public class BaleiaSeguirRato : MonoBehaviour
     public float protectionMargin = 0.05f; // margem da viewport (5% padrão)
 
     private Vector3 targetPos;
-
     private bool shieldActive = false;
 
     void Start()
@@ -39,21 +38,16 @@ public class BaleiaSeguirRato : MonoBehaviour
         // Viewport → mundo
         targetPos = Camera.main.ViewportToWorldPoint(mouseViewport);
         targetPos.z = transform.position.z;
-    }
 
-    void FixedUpdate()
-    {
-        Vector3 toTarget = targetPos - transform.position;
-        Vector3 move = Vector3.zero;
+        // Movimento suave e com delay ajustável
+        float lerpSpeed = moveSpeed * Time.deltaTime; // Valor pequeno para mais delay
+        transform.position = Vector3.Lerp(transform.position, targetPos, lerpSpeed);
 
-        if (toTarget.magnitude > deadZoneDistance)
+        // Movimento para frente (opcional)
+        if (forwardSpeed != 0f)
         {
-            Vector3 direction = toTarget.normalized;
-            move = direction * moveSpeed * Time.fixedDeltaTime;
+            transform.position += Vector3.forward * forwardSpeed * Time.deltaTime;
         }
-
-        move.z = forwardSpeed * Time.fixedDeltaTime;
-        transform.position += move;
     }
 
     public void SetShield(bool active)
