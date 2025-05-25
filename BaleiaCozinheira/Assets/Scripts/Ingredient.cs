@@ -4,13 +4,31 @@ public class Ingredient : MonoBehaviour
 {
     private Material originalMaterial;
     private Renderer rend;
-    private static int currentIngredientIdx = 0;
+    private IngredientSpawner spawner;
+    private float lifeTime = 30f;
+    private float spawnTime;
 
     void Awake()
     {
         rend = GetComponent<Renderer>();
         if (rend != null)
             originalMaterial = rend.material;
+        spawnTime = Time.time;
+    }
+
+    void Update()
+    {
+        if (Time.time - spawnTime >= lifeTime)
+        {
+            if (spawner != null)
+                spawner.IngredientMissed();
+            Destroy(gameObject);
+        }
+    }
+
+    public void SetSpawner(IngredientSpawner ingredientSpawner)
+    {
+        spawner = ingredientSpawner;
     }
 
     public void ResetMaterial()
@@ -27,12 +45,14 @@ public class Ingredient : MonoBehaviour
             Segments segments = Object.FindAnyObjectByType<Segments>();
             if (segments != null)
             {
-                // Avança para o próximo segmento
-                currentIngredientIdx = Mathf.Min(currentIngredientIdx + 1, 6); // Vai até o Element 6
-                segments.SetSegmentIndex(currentIngredientIdx);
+                // Avança para o segmento correspondente ao ingrediente coletado
+                if (spawner != null)
+                {
+                    int segmentToActivate = spawner.GetCurrentIngredientIndex() + 1;
+                    segments.SetSegmentIndex(segmentToActivate);
+                }
 
                 // Reposiciona o player para o início do novo segmento
-                // Usa o próprio 'other.transform' pois é o player
                 Transform playerTransform = other.transform;
                 if (playerTransform != null)
                 {
@@ -49,6 +69,13 @@ public class Ingredient : MonoBehaviour
                     }
                 }
             }
+
+            // Informa ao spawner que o ingrediente foi coletado
+            if (spawner != null)
+                spawner.IngredientCollected();
+            
+            // Destroi o ingrediente
+            Destroy(gameObject);
         }
     }
 }
