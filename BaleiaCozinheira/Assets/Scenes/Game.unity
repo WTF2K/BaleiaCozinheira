@@ -156,8 +156,8 @@ MonoBehaviour:
   - {fileID: 8827406292058934855, guid: c59c631673e8f984ab6af4399fd0df9b, type: 3}
   - {fileID: 4930914453548542621, guid: 6d3a558d71e9c974e8dbd8ec9abbc86f, type: 3}
   - {fileID: 6782924719321634289, guid: b7324b0f3fc841b458d7df4fcbca4654, type: 3}
-  segmentLength: 15
-  maxSegments: 10
+  segmentLength: 20
+  maxSegments: 5
   player: {fileID: 1934835746}
   spawnThreshold: 15
 --- !u!4 &258362021
