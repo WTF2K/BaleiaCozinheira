@@ -15,19 +15,16 @@ public class BaleiaSeguirRato : MonoBehaviour
 
     void Start()
     {
-        // Esconde o cursor
         Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.None; // Se quiser bloquear ao centro: CursorLockMode.Locked
+        Cursor.lockState = CursorLockMode.None;
     }
 
     void Update()
     {
         if (Camera.main == null) return;
 
-        // Rato → posição normalizada da viewport
         Vector3 mouseViewport = Camera.main.ScreenToViewportPoint(Input.mousePosition);
 
-        // Limitar com margem configurável
         float min = protectionMargin;
         float max = 1f - protectionMargin;
 
@@ -35,15 +32,12 @@ public class BaleiaSeguirRato : MonoBehaviour
         mouseViewport.y = Mathf.Clamp(mouseViewport.y, min, max);
         mouseViewport.z = depth;
 
-        // Viewport → mundo
         targetPos = Camera.main.ViewportToWorldPoint(mouseViewport);
         targetPos.z = transform.position.z;
 
-        // Movimento suave e com delay ajustável
-        float lerpSpeed = moveSpeed * Time.deltaTime; // Valor pequeno para mais delay
+        float lerpSpeed = moveSpeed * Time.deltaTime;
         transform.position = Vector3.Lerp(transform.position, targetPos, lerpSpeed);
 
-        // Movimento para frente (opcional)
         if (forwardSpeed != 0f)
         {
             transform.position += Vector3.forward * forwardSpeed * Time.deltaTime;
@@ -55,6 +49,12 @@ public class BaleiaSeguirRato : MonoBehaviour
         shieldActive = active;
     }
 
-    // Depois, no teu código de colisão/dano, verifica shieldActive:
-    // if (shieldActive) { /* ignora dano */ }
+    // Novo método para reduzir velocidade
+    public void ReduceSpeed(float amount)
+    {
+        if (shieldActive) return; // se estiver protegido, não perde velocidade
+
+        moveSpeed = Mathf.Max(0f, moveSpeed - amount);
+        forwardSpeed = Mathf.Max(0f, forwardSpeed - amount);
+    }
 }

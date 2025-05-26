@@ -13,15 +13,13 @@ public class Segments : MonoBehaviour
     private Queue<GameObject> activeSegments = new Queue<GameObject>();
     private GameObject lastSegment = null;
     private Queue<(GameObject, int)> segmentPool = new Queue<(GameObject, int)>();
-    // Guarda todos os prefabs originais
     private GameObject[] allSegments;
     private int currentSegmentIdx = 0;
+    public EnemySpawner1 enemySpawner;
 
     void Start()
     {
-        // Guarda todos os prefabs originais
         allSegments = (GameObject[])segment.Clone();
-        // Começa só com o Element 0
         segment = new GameObject[] { allSegments[0] };
         currentSegmentIdx = 0;
         for (int i = 0; i < maxSegments; i++)
@@ -47,10 +45,8 @@ public class Segments : MonoBehaviour
         int segmentNum = Random.Range(0, segment.Length);
         GameObject newSegment = null;
 
-        // Pooling: reutiliza se possível, mas só se for do mesmo tipo
         if (segmentPool.Count > 0)
         {
-            // Procura um segmento do mesmo tipo no pool
             int poolCount = segmentPool.Count;
             bool found = false;
             for (int i = 0; i < poolCount; i++)
@@ -75,7 +71,6 @@ public class Segments : MonoBehaviour
         }
         else
         {
-            // Calcula a posição logo após o último segmento
             spawnPos = lastSegment.transform.position + new Vector3(0, 0, segmentLength);
         }
 
@@ -98,7 +93,6 @@ public class Segments : MonoBehaviour
             GameObject oldSegment = activeSegments.Dequeue();
             oldSegment.SetActive(false);
 
-            // Descobre o índice do prefab para o pooling correto
             int prefabIdx = -1;
             for (int i = 0; i < segment.Length; i++)
             {
@@ -108,21 +102,18 @@ public class Segments : MonoBehaviour
                     break;
                 }
             }
-            if (prefabIdx < 0) prefabIdx = 0; // fallback
+            if (prefabIdx < 0) prefabIdx = 0;
 
             segmentPool.Enqueue((oldSegment, prefabIdx));
         }
     }
 
-    // Troca o segmento para um novo prefab (ex: ao apanhar ingrediente)
     public void SetSegmentOnly(GameObject newSegment)
     {
         segment = new GameObject[] { newSegment };
-        // Limpa o pool para evitar respawn de segmentos antigos
         segmentPool.Clear();
     }
 
-    // Troca para o segmento do índice desejado (0 a 6)
     public void SetSegmentIndex(int idx)
     {
         if (allSegments != null && idx >= 0 && idx < allSegments.Length)
@@ -130,7 +121,6 @@ public class Segments : MonoBehaviour
             segment = new GameObject[] { allSegments[idx] };
             segmentPool.Clear();
             currentSegmentIdx = idx;
-            // Desativa todos os segmentos ativos antigos
             while (activeSegments.Count > 0)
             {
                 var seg = activeSegments.Dequeue();
@@ -138,17 +128,19 @@ public class Segments : MonoBehaviour
                     seg.SetActive(false);
             }
             lastSegment = null;
-            // Gera os segmentos iniciais do novo mapa
             for (int i = 0; i < maxSegments; i++)
             {
                 SpawnSegment();
             }
         }
+        enemySpawner?.ResetSpawner();
+
     }
 
-    // Permite acessar os segmentos ativos como array (para reposicionar o player corretamente)
     public GameObject[] GetActiveSegmentsArray()
     {
         return activeSegments.ToArray();
     }
 }
+
+

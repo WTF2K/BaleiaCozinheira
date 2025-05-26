@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class PowerUpSpawner : MonoBehaviour
 {
-    public GameObject[] powerUpPrefabs; // Arrasta aqui os prefabs dos power-ups
+    public GameObject[] powerUpPrefabs;
     public float spawnIntervalMin = 5f;
     public float spawnIntervalMax = 10f;
 
-    public Transform baleiaTransform; // Arraste aqui o objeto da baleia no Inspector
-    public float spawnDistance = 10f; // Distância à frente da baleia para spawnar
+    public Transform baleiaTransform;
+    public float spawnDistance = 10f;
 
     void Start()
     {
@@ -49,18 +49,14 @@ public class PowerUpSpawner : MonoBehaviour
         }
 
         int index = Random.Range(0, powerUpPrefabs.Length);
-
-        // Calcula a posição à frente da baleia
         Vector3 forward = baleiaTransform.forward;
         Vector3 spawnPos = baleiaTransform.position + forward * spawnDistance;
-
-        // Mantém o mesmo Y da baleia (opcional, ajuste se necessário)
         spawnPos.y = baleiaTransform.position.y;
 
-        // Define rotação Y = 180
         Quaternion rotation = Quaternion.Euler(0, 180, 0);
 
         Debug.Log($"Spawnando power-up '{powerUpPrefabs[index].name}' em {spawnPos} com rotação Y=180");
         Instantiate(powerUpPrefabs[index], spawnPos, rotation);
     }
 }
+
