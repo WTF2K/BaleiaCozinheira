@@ -25,7 +25,10 @@ public class EnemySpawner1 : MonoBehaviour
     [SerializeField] private float spawnDistance = 10f;
     [SerializeField] private float minSpawnInterval = 1f;
     [SerializeField] private float maxSpawnInterval = 5f;
-    [SerializeField] private float difficultyRampTime = 60f; // Tempo até alcançar minSpawnInterval
+    [SerializeField] private float difficultyRampTime = 60f;
+
+    [Header("Despawn Settings")]
+    [SerializeField] private float despawnBehindDistance = 5f;
 
     private float gameStartTime;
     private float nextSpawnTime;
@@ -49,6 +52,8 @@ public class EnemySpawner1 : MonoBehaviour
 
             ScheduleNextSpawn();
         }
+
+        DespawnPassedEnemies();
     }
 
     void ScheduleNextSpawn()
@@ -61,7 +66,6 @@ public class EnemySpawner1 : MonoBehaviour
     void SpawnEnemyAtPosition(Vector3 pos)
     {
         int index = Random.Range(0, enemyPrefabs.Length);
-        // Rotação 180 graus no eixo Y
         GameObject enemy = Instantiate(enemyPrefabs[index], pos, Quaternion.Euler(0, 180, 0));
         spawnedEnemies.Add(enemy);
     }
@@ -110,9 +114,21 @@ public class EnemySpawner1 : MonoBehaviour
         }
     }
 
+    void DespawnPassedEnemies()
+    {
+        for (int i = spawnedEnemies.Count - 1; i >= 0; i--)
+        {
+            GameObject enemy = spawnedEnemies[i];
+            if (enemy != null && enemy.transform.position.z < playerTransform.position.z - despawnBehindDistance)
+            {
+                Destroy(enemy);
+                spawnedEnemies.RemoveAt(i);
+            }
+        }
+    }
+
     public void ResetSpawner()
     {
-        // Destrói todos os inimigos ativos
         foreach (var enemy in spawnedEnemies)
         {
             if (enemy != null)
@@ -120,7 +136,6 @@ public class EnemySpawner1 : MonoBehaviour
         }
         spawnedEnemies.Clear();
 
-        // Reinicia o temporizador para o spawn
         gameStartTime = Time.time;
         ScheduleNextSpawn();
     }

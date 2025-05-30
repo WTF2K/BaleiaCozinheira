@@ -17,6 +17,8 @@ public class Segments : MonoBehaviour
     private int currentSegmentIdx = 0;
     public EnemySpawner1 enemySpawner;
 
+    
+
     void Start()
     {
         allSegments = (GameObject[])segment.Clone();
@@ -141,6 +143,8 @@ public class Segments : MonoBehaviour
     {
         return activeSegments.ToArray();
     }
+
+    
 }
 
 

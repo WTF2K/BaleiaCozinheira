@@ -3,8 +3,8 @@ using UnityEngine;
 public class EnemyBehaviour1 : MonoBehaviour
 {
     [Header("Float Settings")]
-    public float floatAmplitude = 0.5f;     // Altura da oscilação
-    public float floatFrequency = 1f;       // Velocidade da oscilação
+    public float floatAmplitude = 1.0f;     // Antes era 0.5f — aumenta a altura da oscilação
+    public float floatFrequency = 1.5f;     // Antes era 1f — aumenta a velocidade da oscilação
 
     private Vector3 startPos;
 
@@ -12,9 +12,13 @@ public class EnemyBehaviour1 : MonoBehaviour
     {
         startPos = transform.position;
 
-        // Garante que o inimigo está virado para trás (180° no eixo Y)
+        // Randomiza leve variação por inimigo
+        floatAmplitude += Random.Range(-0.2f, 0.3f);
+        floatFrequency += Random.Range(-0.2f, 0.4f);
+
         transform.rotation = Quaternion.Euler(0, 180f, 0);
     }
+
 
     void Update()
     {

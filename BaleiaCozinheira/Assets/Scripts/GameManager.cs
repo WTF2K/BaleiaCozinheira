@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
     public Segments segments;
     public Transform playerTransform;
     private int novoIndice = 0;
+   
+
 
 
     void Awake()
