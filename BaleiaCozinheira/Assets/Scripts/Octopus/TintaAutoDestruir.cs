@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class TintaAutoDestruir : MonoBehaviour
 {
-    public float tempoDesaparecer = 3f;
+    public float tempoDestruir = 3f;
 
     void Start()
     {
-        Destroy(gameObject, tempoDesaparecer);
+        Destroy(gameObject, tempoDestruir);
     }
 }

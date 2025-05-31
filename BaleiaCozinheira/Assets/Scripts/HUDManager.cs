@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,17 +17,30 @@ public class HUDManager : MonoBehaviour
 
     public void EscurecerHUD(float duracao)
     {
-        StopAllCoroutines();
-        StartCoroutine(FazerEscurecer(duracao));
+        StartCoroutine(EfeitoEscurecer(duracao));
     }
 
-    System.Collections.IEnumerator FazerEscurecer(float tempo)
+    private IEnumerator EfeitoEscurecer(float duracao)
     {
-        escurecedorHUD.enabled = true;
-        escurecedorHUD.color = new Color(0, 0, 0, 0.8f); // escuro
+        if (escurecedorHUD == null) yield break;
 
-        yield return new WaitForSeconds(tempo);
+        // Aplica escurecimento imediato
+        escurecedorHUD.color = new Color(0, 0, 0, 0.97f);
+        yield return new WaitForSeconds(duracao);
 
-        escurecedorHUD.enabled = false;
+        // Fade-out suave (desvanecer)
+        float tempo = 0f;
+        float fadeDuration = 1f; // Tempo para desvanecer
+        Color corAtual = escurecedorHUD.color;
+        Color corDestino = new Color(0, 0, 0, 0f);
+
+        while (tempo < fadeDuration)
+        {
+            tempo += Time.deltaTime;
+            escurecedorHUD.color = Color.Lerp(corAtual, corDestino, tempo / fadeDuration);
+            yield return null;
+        }
+
+        escurecedorHUD.color = corDestino; // Garante que termina completamente transparente
     }
 }
