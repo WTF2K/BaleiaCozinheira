@@ -1,9 +1,10 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class PowerUpSystem : MonoBehaviour
 {
-    public GameObject shieldVisual; // Visual do escudo (Peixe Bola)
+    public GameObject shieldVisual;
     public float shieldDuration = 5f;
     public float turboDuration = 3f;
     public float turboMultiplier = 2f;
@@ -17,18 +18,20 @@ public class PowerUpSystem : MonoBehaviour
     private bool radarActive = false;
     private float originalSpeed;
     private BaleiaSeguirRato whaleMovement;
-    private UIManager uiManager;
+    private PowerUpsManager PowerUpsManager;
 
     void Start()
     {
         whaleMovement = GetComponent<BaleiaSeguirRato>();
-            originalSpeed = whaleMovement.forwardSpeed;
+        originalSpeed = whaleMovement.forwardSpeed;
+
         shieldVisual.SetActive(false);
-        uiManager = FindFirstObjectByType<UIManager>();
-        if (uiManager == null)
-            Debug.LogError("[PowerUpSystem] UIManager não encontrado!");
+        PowerUpsManager = FindFirstObjectByType<PowerUpsManager>();
+
+        if (PowerUpsManager == null)
+            Debug.LogError("[PowerUpSystem] PowerUpsManager não encontrado!");
         else
-            Debug.Log("[PowerUpSystem] UIManager encontrado!");
+            Debug.Log("[PowerUpSystem] PowerUpsManager encontrado!");
     }
 
     public void ActivateShield()
@@ -56,49 +59,89 @@ public class PowerUpSystem : MonoBehaviour
     {
         shieldActive = true;
         shieldVisual.SetActive(true);
-        if (uiManager != null) uiManager.ShowPowerUpIcon(PowerUpType.Shield, true);
+        if (PowerUpsManager != null)
+        {
+            PowerUpsManager.ShowPowerUpIcon(PowerUpType.Shield, true);
+            StartCoroutine(PowerUpFade(PowerUpsManager.shieldIcon, shieldDuration));
+        }
+
         whaleMovement.SetShield(true);
         yield return new WaitForSeconds(shieldDuration);
         whaleMovement.SetShield(false);
         shieldVisual.SetActive(false);
-        if (uiManager != null) uiManager.ShowPowerUpIcon(PowerUpType.Shield, false);
+
+        if (PowerUpsManager != null)
+            PowerUpsManager.ShowPowerUpIcon(PowerUpType.Shield, false);
+
         shieldActive = false;
     }
 
     IEnumerator TurboRoutine()
     {
         turboActive = true;
-        if (uiManager != null) uiManager.ShowPowerUpIcon(PowerUpType.Turbo, true);
+        if (PowerUpsManager != null)
+        {
+            PowerUpsManager.ShowPowerUpIcon(PowerUpType.Turbo, true);
+            StartCoroutine(PowerUpFade(PowerUpsManager.turboIcon, turboDuration));
+        }
+
         whaleMovement.forwardSpeed *= turboMultiplier;
         yield return new WaitForSeconds(turboDuration);
         whaleMovement.forwardSpeed = originalSpeed;
-        if (uiManager != null) uiManager.ShowPowerUpIcon(PowerUpType.Turbo, false);
+
+        if (PowerUpsManager != null)
+            PowerUpsManager.ShowPowerUpIcon(PowerUpType.Turbo, false);
+
         turboActive = false;
     }
 
     IEnumerator RadarRoutine()
     {
         radarActive = true;
-        if (uiManager != null) uiManager.ShowPowerUpIcon(PowerUpType.Radar, true);
+        if (PowerUpsManager != null)
+        {
+            PowerUpsManager.ShowPowerUpIcon(PowerUpType.Radar, true);
+            StartCoroutine(PowerUpFade(PowerUpsManager.radarIcon, radarDuration));
+        }
+
         Collider[] ingredients = Physics.OverlapSphere(transform.position, radarRange, ingredientLayer);
         foreach (var ingredient in ingredients)
         {
             var renderer = ingredient.GetComponent<Renderer>();
             if (renderer != null)
-            {
                 renderer.material = highlightMaterial;
-            }
         }
+
         yield return new WaitForSeconds(radarDuration);
+
         foreach (var ingredient in ingredients)
         {
             var ingredientScript = ingredient.GetComponent<Ingredient>();
             if (ingredientScript != null)
-            {
                 ingredientScript.ResetMaterial();
-            }
         }
-        if (uiManager != null) uiManager.ShowPowerUpIcon(PowerUpType.Radar, false);
+
+        if (PowerUpsManager != null)
+            PowerUpsManager.ShowPowerUpIcon(PowerUpType.Radar, false);
+
         radarActive = false;
+    }
+
+    // Lógica de fade de branco para preto com alpha 130 (0.51f)
+    IEnumerator PowerUpFade(Image iconImage, float duration)
+    {
+        Color startColor = new Color(1f, 1f, 1f, 0.51f); // Branco translúcido
+        Color endColor = new Color(0f, 0f, 0f, 0.51f);   // Preto translúcido
+
+        float t = 0f;
+        while (t < duration)
+        {
+            float lerpAmount = t / duration;
+            iconImage.color = Color.Lerp(startColor, endColor, lerpAmount);
+            t += Time.deltaTime;
+            yield return null;
+        }
+
+        iconImage.color = endColor;
     }
 }

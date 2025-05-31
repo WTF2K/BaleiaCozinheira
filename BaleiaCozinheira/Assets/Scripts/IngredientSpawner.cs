@@ -23,6 +23,7 @@ public class IngredientSpawner : MonoBehaviour
     {
         player = GameObject.FindWithTag("Player")?.transform;
         nextSpawnTime = Time.time + spawnTimers[0];
+        IngredientManager.Instance?.AtualizarIngredienteAtual(currentIngredientIndex);
     }
 
     void Update()
@@ -69,5 +70,3 @@ public class IngredientSpawner : MonoBehaviour
         return currentIngredientIndex;
     }
 }
-
-

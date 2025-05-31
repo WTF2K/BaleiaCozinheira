@@ -41,18 +41,19 @@ public class Ingredient : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            // Troca o segmento do mapa
+            int currentIndex = spawner.GetCurrentIngredientIndex();
+
+            IngredientManager.Instance?.RegistarIngredienteApanhado(currentIndex);
+
             Segments segments = Object.FindAnyObjectByType<Segments>();
             if (segments != null)
             {
-                // Avança para o segmento correspondente ao ingrediente coletado
                 if (spawner != null)
                 {
-                    int segmentToActivate = spawner.GetCurrentIngredientIndex() + 1;
+                    int segmentToActivate = currentIndex + 1;
                     segments.SetSegmentIndex(segmentToActivate);
                 }
 
-                // Reposiciona o player para o início do novo segmento
                 Transform playerTransform = other.transform;
                 if (playerTransform != null)
                 {
@@ -70,11 +71,12 @@ public class Ingredient : MonoBehaviour
                 }
             }
 
-            // Informa ao spawner que o ingrediente foi coletado
             if (spawner != null)
+            {
                 spawner.IngredientCollected();
-            
-            // Destroi o ingrediente
+                IngredientManager.Instance?.AtualizarIngredienteAtual(spawner.GetCurrentIngredientIndex());
+            }
+
             Destroy(gameObject);
         }
     }

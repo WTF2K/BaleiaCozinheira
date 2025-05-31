@@ -1,32 +1,28 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIManager : MonoBehaviour
+public class PowerUpsManager : MonoBehaviour
 {
     public Image shieldIcon;
     public Image turboIcon;
     public Image radarIcon;
 
-    void Start()
-    {
-        shieldIcon.enabled = false;
-        turboIcon.enabled = false;
-        radarIcon.enabled = false;
-    }
-
     public void ShowPowerUpIcon(PowerUpType type, bool show)
     {
         Debug.Log($"[UIManager] ShowPowerUpIcon: {type}, mostrar: {show}");
+        Color activeColor = new Color(1f, 1f, 1f, 0.51f);
+        Color inactiveColor = new Color(0f, 0f, 0f, 0.51f);
+
         switch (type)
         {
             case PowerUpType.Shield:
-                shieldIcon.enabled = show;
+                shieldIcon.color = show ? activeColor : inactiveColor;
                 break;
             case PowerUpType.Turbo:
-                turboIcon.enabled = show;
+                turboIcon.color = show ? activeColor : inactiveColor;
                 break;
             case PowerUpType.Radar:
-                radarIcon.enabled = show;
+                radarIcon.color = show ? activeColor : inactiveColor;
                 break;
         }
     }
