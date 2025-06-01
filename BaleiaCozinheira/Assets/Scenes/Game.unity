@@ -1623,6 +1623,57 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   highlightMaterial: {fileID: 0}
+--- !u!1 &1974431828
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1974431830}
+  - component: {fileID: 1974431829}
+  m_Layer: 0
+  m_Name: DificultyManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1974431829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1974431828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9af901afaccac1747b7fe60596994d34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1588790815}
+  ingredientSpawner: {fileID: 1081104760}
+  enemySpawner: {fileID: 2026388875}
+  powerUpSpawner: {fileID: 1371975447}
+  playerSpeedIncreasePerLevel: 1
+  enemySpawnRateIncreasePerLevel: 0.3
+  powerUpDelayIncreasePerLevel: 1
+--- !u!4 &1974431830
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1974431828}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.5094666, y: 11.844636, z: 273.04968}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2004281474
 GameObject:
   m_ObjectHideFlags: 0
@@ -1906,3 +1957,4 @@ SceneRoots:
   - {fileID: 1371975449}
   - {fileID: 1081104762}
   - {fileID: 2026388877}
+  - {fileID: 1974431830}
