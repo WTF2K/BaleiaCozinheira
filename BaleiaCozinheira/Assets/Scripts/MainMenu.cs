@@ -11,6 +11,10 @@ public class MainMenu : MonoBehaviour
     {
         SceneManager.LoadScene("Game");
     }
+    public void GoToIntroScene()
+    {
+        SceneManager.LoadScene("IntroScene");
+    }
     public void GoToScoreBoard()
     {
         SceneManager.LoadScene("Scoreboard");
