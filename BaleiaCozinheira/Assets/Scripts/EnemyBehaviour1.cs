@@ -38,7 +38,7 @@ public class EnemyBehaviour1 : MonoBehaviour
             BaleiaSeguirRato baleia = other.GetComponent<BaleiaSeguirRato>();
             if (baleia != null)
             {
-                baleia.ReduceSpeed(0.3f);
+                baleia.ReduceSpeed(0.5f);
             }
         }
     }
