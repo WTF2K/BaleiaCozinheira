@@ -4784,7 +4784,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -6629797300637803691, guid: d754cec83a87e594a972a997e5e28248, type: 3}
+  - {fileID: 2100000, guid: deeacb0a1438b1a4e977820c8eaccb22, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4856,7 +4856,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 4
+  m_Radius: 7
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &5893695671035514429
 Rigidbody:

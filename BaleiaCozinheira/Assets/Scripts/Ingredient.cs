@@ -54,6 +54,12 @@ public class Ingredient : MonoBehaviour
                     segments.SetSegmentIndex(segmentToActivate);
                 }
 
+                PolvoSeguidor polvo = FindObjectOfType<PolvoSeguidor>();
+                if (polvo != null)
+                {
+                    polvo.RecuarParaTrasDaCamera();
+                }
+
                 Transform playerTransform = other.transform;
                 if (playerTransform != null)
                 {
