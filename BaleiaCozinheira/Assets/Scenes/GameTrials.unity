@@ -181,7 +181,7 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 5
   distanciaAtrasDaCamera: 20
-  distanciaFrenteCamera: 15
+  distanciaFrenteCamera: 1
 --- !u!136 &234868586
 CapsuleCollider:
   m_ObjectHideFlags: 0

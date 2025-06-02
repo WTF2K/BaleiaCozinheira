@@ -34,15 +34,18 @@ public class PolvoSeguidor : MonoBehaviour
 
     public void AtivarPerseguicao()
     {
+        // Já está a perseguir? Não fazer nada
+        if (perseguir) return;
+
         if (cameraTransform == null || player == null)
         {
             Debug.LogWarning("Faltam referências no PolvoSeguidor!");
             return;
         }
 
-        // Coloca à frente da câmara, no eixo Z
+        // Coloca à frente da câmara apenas na primeira ativação
         Vector3 frenteDaCamera = cameraTransform.position + cameraTransform.forward * distanciaFrenteCamera;
-        frenteDaCamera.y = player.position.y; // ajusta a altura para coincidir com a baleia
+        frenteDaCamera.y = player.position.y;
 
         transform.position = frenteDaCamera;
         perseguir = true;
