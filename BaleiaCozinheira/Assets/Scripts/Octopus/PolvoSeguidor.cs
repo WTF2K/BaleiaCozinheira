@@ -76,4 +76,10 @@ public class PolvoSeguidor : MonoBehaviour
             UnityEngine.SceneManagement.SceneManager.LoadScene("GameOver");
         }
     }
+
+    public void RecuarParaTrasDaCamera()
+    {
+        perseguir = false;
+        transform.position = cameraTransform.position - cameraTransform.forward * distanciaAtrasDaCamera;
+    }
 }
