@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BaleiaSeguirRato : MonoBehaviour
 {
@@ -8,15 +9,26 @@ public class BaleiaSeguirRato : MonoBehaviour
     public float deadZoneDistance = 0.01f;
 
     [Range(0f, 0.4f)]
-    public float protectionMargin = 0.05f; // margem da viewport (5% padrão)
+    public float protectionMargin = 0.05f;
 
     private Vector3 targetPos;
     private bool shieldActive = false;
+
+    private float originalMoveSpeed;
+    private float originalForwardSpeed;
+    public float recoveryRate = 0.05f;
+
+    // NOVO: contagem de colisões
+    private int hitCount = 0;
+    public int maxHits = 3;
 
     void Start()
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.None;
+
+        originalMoveSpeed = moveSpeed;
+        originalForwardSpeed = forwardSpeed;
     }
 
     void Update()
@@ -42,6 +54,12 @@ public class BaleiaSeguirRato : MonoBehaviour
         {
             transform.position += Vector3.forward * forwardSpeed * Time.deltaTime;
         }
+
+        if (!shieldActive)
+        {
+            moveSpeed = Mathf.MoveTowards(moveSpeed, originalMoveSpeed, recoveryRate * Time.deltaTime);
+            forwardSpeed = Mathf.MoveTowards(forwardSpeed, originalForwardSpeed, recoveryRate * Time.deltaTime);
+        }
     }
 
     public void SetShield(bool active)
@@ -49,12 +67,26 @@ public class BaleiaSeguirRato : MonoBehaviour
         shieldActive = active;
     }
 
-    // Novo método para reduzir velocidade
     public void ReduceSpeed(float amount)
     {
-        if (shieldActive) return; // se estiver protegido, não perde velocidade
+        if (shieldActive) return;
 
         moveSpeed = Mathf.Max(0f, moveSpeed - amount);
         forwardSpeed = Mathf.Max(0f, forwardSpeed - amount);
+
+        // NOVO: contabilizar a colisão
+        hitCount++;
+        Debug.Log("Colisão com inimigo! Total: " + hitCount);
+
+        if (hitCount >= maxHits)
+        {
+            GameOver();
+        }
+    }
+
+    void GameOver()
+    {
+        Debug.Log("Game Over - 3 colisões");
+        SceneManager.LoadScene("GameOver");
     }
 }

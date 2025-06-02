@@ -57,6 +57,14 @@ public class PowerUpSystem : MonoBehaviour
 
     IEnumerator ShieldRoutine()
     {
+        // Desabilita colisões entre a layer do player, inimigos e tinta
+        int playerLayer = gameObject.layer;
+        int enemyLayer = LayerMask.NameToLayer("Enemy");
+        int inkLayer = LayerMask.NameToLayer("Ink");
+        
+        Physics.IgnoreLayerCollision(playerLayer, enemyLayer, true);
+        Physics.IgnoreLayerCollision(playerLayer, inkLayer, true);
+
         shieldActive = true;
         shieldVisual.SetActive(true);
         if (PowerUpsManager != null)
@@ -67,9 +75,13 @@ public class PowerUpSystem : MonoBehaviour
 
         whaleMovement.SetShield(true);
         yield return new WaitForSeconds(shieldDuration);
+
+        // Reativa colisões após o fim do escudo
+        Physics.IgnoreLayerCollision(playerLayer, enemyLayer, false);
+        Physics.IgnoreLayerCollision(playerLayer, inkLayer, false);
+
         whaleMovement.SetShield(false);
         shieldVisual.SetActive(false);
-
         if (PowerUpsManager != null)
             PowerUpsManager.ShowPowerUpIcon(PowerUpType.Shield, false);
 
