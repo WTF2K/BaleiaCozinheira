@@ -6,7 +6,7 @@ public class PolvoSeguidor : MonoBehaviour
     public Transform cameraTransform;
     public float speed = 5f;
     public float rotationSpeed = 5f;
-    public float distanciaAtrasDaCamera = 20f;
+    public float distanciaAtrasDaCamera = 50f;
     public float distanciaFrenteCamera = 1f;
 
     private bool perseguir = false;
