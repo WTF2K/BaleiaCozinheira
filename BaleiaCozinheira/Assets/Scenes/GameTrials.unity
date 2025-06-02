@@ -1700,6 +1700,8 @@ MonoBehaviour:
   depth: 10
   deadZoneDistance: 0.15
   protectionMargin: 0.1
+  recoveryRate: 0.05
+  maxHits: 3
 --- !u!114 &1290302986 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5836944345113822479, guid: 528ce12d6ccf5ce44b7110a3769ee064, type: 3}
@@ -2017,6 +2019,8 @@ MonoBehaviour:
   depth: 10
   deadZoneDistance: 0.01
   protectionMargin: 0.05
+  recoveryRate: 0.05
+  maxHits: 3
 --- !u!114 &1934835752
 MonoBehaviour:
   m_ObjectHideFlags: 0

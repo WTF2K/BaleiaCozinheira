@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class BaleiaSeguirRato : MonoBehaviour
@@ -7,7 +9,6 @@ public class BaleiaSeguirRato : MonoBehaviour
     public float forwardSpeed = 2f;
     public float depth = 10f;
     public float deadZoneDistance = 0.01f;
-
     [Range(0f, 0.4f)]
     public float protectionMargin = 0.05f;
 
@@ -18,9 +19,20 @@ public class BaleiaSeguirRato : MonoBehaviour
     private float originalForwardSpeed;
     public float recoveryRate = 0.05f;
 
-    // NOVO: contagem de colisões
-    private int hitCount = 0;
-    public int maxHits = 3;
+    // Tempo limite para considerar colisões consecutivas (2 segundos, por exemplo)
+    public float collisionThreshold = 2f;
+    private List<float> collisionTimes = new List<float>();
+
+    // NOVO: Limite de colisões dentro do intervalo para Game Over
+    public int maxHitsWithinThreshold = 2;
+
+    // Parâmetros para o efeito de piscar
+    public float blinkDuration = 1f;
+    public int blinkCount = 5;
+
+    // Variável para cooldown de colisão
+    public float collisionCooldown = 1f;
+    private float lastCollisionTime = -Mathf.Infinity;
 
     void Start()
     {
@@ -69,24 +81,55 @@ public class BaleiaSeguirRato : MonoBehaviour
 
     public void ReduceSpeed(float amount)
     {
-        if (shieldActive) return;
+        if (shieldActive)
+            return;
 
-        moveSpeed = Mathf.Max(0f, moveSpeed - amount);
-        forwardSpeed = Mathf.Max(0f, forwardSpeed - amount);
+        // Verifica se passou o cooldown de colisão
+        if (Time.time - lastCollisionTime < collisionCooldown)
+            return;
 
-        // NOVO: contabilizar a colisão
-        hitCount++;
-        Debug.Log("Colisão com inimigo! Total: " + hitCount);
+        lastCollisionTime = Time.time;
 
-        if (hitCount >= maxHits)
+        // Multiplica o 'amount' por 2 para reduzir mais a velocidade
+        float reduction = amount * 2f;
+        moveSpeed = Mathf.Max(0f, moveSpeed - reduction);
+        forwardSpeed = Mathf.Max(0f, forwardSpeed - reduction);
+
+        // Registra o instante da colisão
+        collisionTimes.Add(Time.time);
+        // Remove colisões que ocorreram há mais de collisionThreshold segundos
+        collisionTimes.RemoveAll(t => Time.time - t > collisionThreshold);
+
+        Debug.Log("Colisão com inimigo! Contagem em " + collisionThreshold + "s: " + collisionTimes.Count);
+
+        // Ativa o efeito de piscar
+        StartCoroutine(BlinkEffect(blinkDuration, blinkCount));
+
+        if (collisionTimes.Count >= maxHitsWithinThreshold)
         {
             GameOver();
         }
     }
 
+    IEnumerator BlinkEffect(float duration, int count)
+    {
+        Renderer rend = GetComponent<Renderer>();
+        if (rend == null)
+            yield break;
+
+        float halfPeriod = duration / (count * 2);
+        for (int i = 0; i < count; i++)
+        {
+            rend.enabled = false;
+            yield return new WaitForSeconds(halfPeriod);
+            rend.enabled = true;
+            yield return new WaitForSeconds(halfPeriod);
+        }
+    }
+
     void GameOver()
     {
-        Debug.Log("Game Over - 3 colisões");
+        Debug.Log("Game Over - " + maxHitsWithinThreshold + " colisões dentro de " + collisionThreshold + " segundos");
         SceneManager.LoadScene("GameOver");
     }
 }
