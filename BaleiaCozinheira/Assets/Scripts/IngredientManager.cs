@@ -62,6 +62,12 @@ public class IngredientManager : MonoBehaviour
         if (currentIngredientImg != null)
             currentIngredientImg.color = new Color(1f, 1f, 1f, 1f); // mostra imagem atual como visível
 
+        PolvoSeguidor polvo = FindObjectOfType<PolvoSeguidor>();
+        if (polvo != null)
+        {
+            polvo.RecuarParaTrasDaCamera();
+        }
+
         // ⚠️ Verifica se já foram apanhados todos
         if (collectedCount >= 7)
         {
