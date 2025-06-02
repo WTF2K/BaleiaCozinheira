@@ -52,4 +52,28 @@ public class PolvoSeguidor : MonoBehaviour
 
         Debug.Log("🐙 Polvo apareceu à frente da câmara e iniciou perseguição!");
     }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            Debug.Log("🐙 Polvo perseguidor colidiu com a baleia!");
+
+            // Segurança: verifica se as instâncias existem
+            if (IngredientManager.Instance == null || DistanceTracker.Instance == null || CoinManager.Instance == null)
+            {
+                Debug.LogWarning("⚠️ Uma das instâncias está null ao tentar guardar dados!");
+                return;
+            }
+
+            // Guarda os dados no PlayerPrefs
+            PlayerPrefs.SetInt("GameOver_Ingredients", IngredientManager.Instance.GetIngredientesApanhados());
+            PlayerPrefs.SetInt("GameOver_Distance", DistanceTracker.Instance.GetDistance());
+            PlayerPrefs.SetInt("GameOver_Coins", CoinManager.Instance.GetCoinCount());
+            PlayerPrefs.Save();
+
+            // Muda para a cena de Game Over
+            UnityEngine.SceneManagement.SceneManager.LoadScene("GameOver");
+        }
+    }
 }
