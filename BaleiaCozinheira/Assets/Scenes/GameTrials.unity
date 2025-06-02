@@ -1368,7 +1368,7 @@ AudioSource:
   m_audioClip: {fileID: 8300000, guid: e8da1fa0b65116a4d865d1ca09af3a99, type: 3}
   m_Resource: {fileID: 8300000, guid: e8da1fa0b65116a4d865d1ca09af3a99, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -1701,7 +1701,11 @@ MonoBehaviour:
   deadZoneDistance: 0.15
   protectionMargin: 0.1
   recoveryRate: 0.05
-  maxHits: 3
+  collisionThreshold: 2
+  maxHitsWithinThreshold: 2
+  blinkDuration: 3
+  blinkCount: 5
+  collisionCooldown: 1
 --- !u!114 &1290302986 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5836944345113822479, guid: 528ce12d6ccf5ce44b7110a3769ee064, type: 3}
@@ -2020,7 +2024,11 @@ MonoBehaviour:
   deadZoneDistance: 0.01
   protectionMargin: 0.05
   recoveryRate: 0.05
-  maxHits: 3
+  collisionThreshold: 2
+  maxHitsWithinThreshold: 2
+  blinkDuration: 0.5
+  blinkCount: 5
+  collisionCooldown: 1
 --- !u!114 &1934835752
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2041,8 +2049,8 @@ MonoBehaviour:
   radarRange: 15
   ingredientLayer:
     serializedVersion: 2
-    m_Bits: 0
-  highlightMaterial: {fileID: 0}
+    m_Bits: 8
+  highlightMaterial: {fileID: 2100000, guid: 8d176c01131de8f46ad61094e29d79b2, type: 2}
 --- !u!54 &1934835755
 Rigidbody:
   m_ObjectHideFlags: 0

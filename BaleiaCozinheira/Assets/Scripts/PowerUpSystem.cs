@@ -116,7 +116,10 @@ public class PowerUpSystem : MonoBehaviour
             StartCoroutine(PowerUpFade(PowerUpsManager.radarIcon, radarDuration));
         }
 
-        Collider[] ingredients = Physics.OverlapSphere(transform.position, radarRange, ingredientLayer);
+        // Cria uma máscara para a layer "Ingredient"
+        int ingredientLayerMask = 1 << LayerMask.NameToLayer("Ingredient");
+        Collider[] ingredients = Physics.OverlapSphere(transform.position, radarRange, ingredientLayerMask);
+        
         foreach (var ingredient in ingredients)
         {
             var renderer = ingredient.GetComponent<Renderer>();

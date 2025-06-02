@@ -72,6 +72,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sal de Lava Viva
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 524d577257696ea40b0a235bd968470b, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
