@@ -4856,7 +4856,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 11.49926
+  m_Radius: 4
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &5893695671035514429
 Rigidbody:
@@ -4884,7 +4884,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 1
+  m_CollisionDetection: 2
 --- !u!114 &812691125061053773
 MonoBehaviour:
   m_ObjectHideFlags: 0
