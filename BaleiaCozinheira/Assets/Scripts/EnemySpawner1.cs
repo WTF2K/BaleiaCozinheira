@@ -88,4 +88,9 @@ public class EnemySpawner1 : MonoBehaviour
         spawnedEnemies.Clear();
         ScheduleNextSpawn();
     }
+    public List<GameObject> GetSpawnedEnemies()
+    {
+        return spawnedEnemies;
+    }
+
 }
