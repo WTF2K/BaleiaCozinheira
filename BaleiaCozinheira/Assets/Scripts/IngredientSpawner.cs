@@ -9,19 +9,22 @@ public class IngredientSpawner : MonoBehaviour
     [SerializeField] private float[] spawnTimers = new float[7] { 2f, 3f, 4f, 5f, 6f, 7f, 8f };
 
     [Header("Spawn Settings")]
-    [SerializeField] private float spawnDistance = 50f;
+    [SerializeField] private float spawnDistance = 80f;
     [SerializeField] private float spawnHeight = 2f;
     [SerializeField] private float spawnWidth = 10f;
-    [SerializeField] private float respawnTime = 30f;
+    [SerializeField] private float respawnTime = 5f;
+
+    [Header("Player Reference")]
+    [SerializeField] private Transform player; // <-- Adicione esta linha
 
     private static int currentIngredientIndex = 0;
     private float nextSpawnTime;
-    private Transform player;
     private bool hasActiveIngredient = false;
 
     void Start()
     {
-        player = GameObject.FindWithTag("Player")?.transform;
+        // Remova a linha que busca pela tag
+        // player = GameObject.FindWithTag("Player")?.transform;
         nextSpawnTime = Time.time + spawnTimers[0];
         IngredientManager.Instance?.AtualizarIngredienteAtual(currentIngredientIndex);
     }
