@@ -14,10 +14,10 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 10
-  m_Fog: 0
-  m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  m_Fog: 1
+  m_FogColor: {r: 0.2678889, g: 0.39198938, b: 0.6603774, a: 1}
   m_FogMode: 3
-  m_FogDensity: 0.01
+  m_FogDensity: 0.038
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
   m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
@@ -119,6 +119,55 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &78869626
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 78869628}
+  - component: {fileID: 78869627}
+  m_Layer: 0
+  m_Name: Global Volume
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &78869627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 78869626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IsGlobal: 1
+  priority: 0
+  blendDistance: 0
+  weight: 1
+  sharedProfile: {fileID: 11400000, guid: de78dfa8e866fb24d977d66406a36415, type: 2}
+--- !u!4 &78869628
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 78869626}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -18.772964, y: -34.81224, z: 85.50699}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &140160542 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 248e75164decc14449ec6b8c239613a3, type: 3}
@@ -673,6 +722,7 @@ MonoBehaviour:
   spawnHeight: 2
   spawnWidth: 10
   respawnTime: 30
+  player: {fileID: 0}
 --- !u!4 &1081104762
 Transform:
   m_ObjectHideFlags: 0
@@ -805,7 +855,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -1016,6 +1066,12 @@ MonoBehaviour:
   depth: 10
   deadZoneDistance: 0.15
   protectionMargin: 0.1
+  recoveryRate: 0.05
+  collisionThreshold: 2
+  maxHitsWithinThreshold: 2
+  blinkDuration: 1
+  blinkCount: 5
+  collisionCooldown: 1
 --- !u!54 &1220581348
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1601,6 +1657,12 @@ MonoBehaviour:
   depth: 10
   deadZoneDistance: 0.01
   protectionMargin: 0.05
+  recoveryRate: 0.05
+  collisionThreshold: 2
+  maxHitsWithinThreshold: 2
+  blinkDuration: 1
+  blinkCount: 5
+  collisionCooldown: 1
 --- !u!114 &1934835752
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1915,16 +1977,11 @@ MonoBehaviour:
   - {fileID: 1745957441}
   - {fileID: 1198053579}
   playerTransform: {fileID: 1934835746}
-  mainCamera: {fileID: 1105344496}
-  spawnMode: 0
-  gridRows: 3
-  gridCols: 3
-  gridWidth: 12
-  gridHeight: 8
-  spawnDistance: 12
   minSpawnInterval: 1
   maxSpawnInterval: 5
-  difficultyRampTime: 50
+  minEnemiesPerWave: 1
+  maxEnemiesPerWave: 4
+  spawnDistance: 12
   despawnBehindDistance: 5
 --- !u!4 &2026388877
 Transform:
@@ -1958,3 +2015,4 @@ SceneRoots:
   - {fileID: 1081104762}
   - {fileID: 2026388877}
   - {fileID: 1974431830}
+  - {fileID: 78869628}
