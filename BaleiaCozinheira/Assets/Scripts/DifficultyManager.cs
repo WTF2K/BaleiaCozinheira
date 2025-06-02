@@ -173,6 +173,7 @@ public class DifficultyManager : MonoBehaviour
     {
         // Destroi todos os inimigos
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        Debug.Log("Inimigos encontrados: " + enemies.Length);
         foreach (GameObject enemy in enemies)
         {
             Destroy(enemy);
@@ -180,6 +181,7 @@ public class DifficultyManager : MonoBehaviour
         
         // Destroi todos os power-ups
         GameObject[] powerUps = GameObject.FindGameObjectsWithTag("PowerUp");
+        Debug.Log("PowerUps encontrados: " + powerUps.Length);
         foreach (GameObject powerUp in powerUps)
         {
             Destroy(powerUp);
@@ -187,6 +189,7 @@ public class DifficultyManager : MonoBehaviour
         
         // Destroi todas as coins
         GameObject[] coins = GameObject.FindGameObjectsWithTag("Coin");
+        Debug.Log("Coins encontradas: " + coins.Length);
         foreach (GameObject coin in coins)
         {
             Destroy(coin);
