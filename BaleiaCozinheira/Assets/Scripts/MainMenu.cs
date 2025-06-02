@@ -9,7 +9,7 @@ public class MainMenu : MonoBehaviour
     }
     public void StartGame()
     {
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene("GameTrials");
     }
     public void GoToIntroScene()
     {
@@ -25,7 +25,7 @@ public class MainMenu : MonoBehaviour
     }
     public void GoToCredits()
     {
-        SceneManager.LoadScene("GameCredits");
+        SceneManager.LoadScene("Credits");
     }
     public void ExitGame()
     {
