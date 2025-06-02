@@ -84,7 +84,6 @@ public class DifficultyManager : MonoBehaviour
             ingredientsCollected[ingredientType]++;
             
             // Destroi todos os inimigos, power-ups e coins existentes
-            ClearExistingObjects();
             
             UpdateDifficulty();
         }
@@ -187,13 +186,7 @@ public class DifficultyManager : MonoBehaviour
             Destroy(powerUp);
         }
         
-        // Destroi todas as coins
-        GameObject[] coins = GameObject.FindGameObjectsWithTag("Coin");
-        Debug.Log("Coins encontradas: " + coins.Length);
-        foreach (GameObject coin in coins)
-        {
-            Destroy(coin);
-        }
+ 
         
         Debug.Log("Todos os inimigos, power-ups e coins foram destruídos.");
     }
