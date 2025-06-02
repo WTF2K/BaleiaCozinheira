@@ -17,7 +17,7 @@ RenderSettings:
   m_Fog: 1
   m_FogColor: {r: 0.30673727, g: 0.3634328, b: 0.5754717, a: 1}
   m_FogMode: 3
-  m_FogDensity: 0.061
+  m_FogDensity: 0.038
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
   m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
@@ -2214,15 +2214,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   forwardSpeed: 4
+  recoveryRate: 0.1
   depth: 10
   deadZoneDistance: 0.01
-  protectionMargin: 0.15
-  recoveryRate: 0.05
+  protectionMargin: 0.05
   collisionThreshold: 2
   maxHitsWithinThreshold: 2
+  collisionCooldown: 1
   blinkDuration: 2
   blinkCount: 5
-  collisionCooldown: 1
 --- !u!114 &1934835752
 MonoBehaviour:
   m_ObjectHideFlags: 0
