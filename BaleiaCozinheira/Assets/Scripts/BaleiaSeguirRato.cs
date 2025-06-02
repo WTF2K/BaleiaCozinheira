@@ -5,34 +5,32 @@ using UnityEngine.SceneManagement;
 
 public class BaleiaSeguirRato : MonoBehaviour
 {
+    [Header("Velocidade")]
     public float moveSpeed = 2f;
     public float forwardSpeed = 2f;
+    private float originalMoveSpeed;
+    private float originalForwardSpeed;
+    public float recoveryRate = 0.5f; // Velocidade de recuperação por segundo
+
+    [Header("Posição do rato")]
     public float depth = 10f;
     public float deadZoneDistance = 0.01f;
     [Range(0f, 0.4f)]
     public float protectionMargin = 0.05f;
 
-    private Vector3 targetPos;
+    [Header("Colisões e escudo")]
     private bool shieldActive = false;
-
-    private float originalMoveSpeed;
-    private float originalForwardSpeed;
-    public float recoveryRate = 0.05f;
-
-    // Tempo limite para considerar colisões consecutivas (2 segundos, por exemplo)
     public float collisionThreshold = 2f;
+    public int maxHitsWithinThreshold = 3;
     private List<float> collisionTimes = new List<float>();
+    public float collisionCooldown = 1f;
+    private float lastCollisionTime = -Mathf.Infinity;
 
-    // NOVO: Limite de colisões dentro do intervalo para Game Over
-    public int maxHitsWithinThreshold = 2;
-
-    // Parâmetros para o efeito de piscar
+    [Header("Efeito de piscar")]
     public float blinkDuration = 1f;
     public int blinkCount = 5;
 
-    // Variável para cooldown de colisão
-    public float collisionCooldown = 1f;
-    private float lastCollisionTime = -Mathf.Infinity;
+    private Vector3 targetPos;
 
     void Start()
     {
@@ -47,31 +45,31 @@ public class BaleiaSeguirRato : MonoBehaviour
     {
         if (Camera.main == null) return;
 
+        // Limita o rato à viewport
         Vector3 mouseViewport = Camera.main.ScreenToViewportPoint(Input.mousePosition);
-
         float min = protectionMargin;
         float max = 1f - protectionMargin;
-
         mouseViewport.x = Mathf.Clamp(mouseViewport.x, min, max);
         mouseViewport.y = Mathf.Clamp(mouseViewport.y, min, max);
         mouseViewport.z = depth;
 
+        // Converter para posição no mundo
         targetPos = Camera.main.ViewportToWorldPoint(mouseViewport);
         targetPos.z = transform.position.z;
 
+        // Movimento lateral
         float lerpSpeed = moveSpeed * Time.deltaTime;
         transform.position = Vector3.Lerp(transform.position, targetPos, lerpSpeed);
 
+        // Movimento para a frente
         if (forwardSpeed != 0f)
         {
             transform.position += Vector3.forward * forwardSpeed * Time.deltaTime;
         }
 
-        if (!shieldActive)
-        {
-            moveSpeed = Mathf.MoveTowards(moveSpeed, originalMoveSpeed, recoveryRate * Time.deltaTime);
-            forwardSpeed = Mathf.MoveTowards(forwardSpeed, originalForwardSpeed, recoveryRate * Time.deltaTime);
-        }
+        // ✅ Recupera sempre a velocidade, com ou sem escudo
+        moveSpeed = Mathf.MoveTowards(moveSpeed, originalMoveSpeed, recoveryRate * Time.deltaTime);
+        forwardSpeed = Mathf.MoveTowards(forwardSpeed, originalForwardSpeed, recoveryRate * Time.deltaTime);
     }
 
     public void SetShield(bool active)
@@ -82,27 +80,23 @@ public class BaleiaSeguirRato : MonoBehaviour
     public void ReduceSpeed(float amount)
     {
         if (shieldActive)
-            return;
+            return; // 🛡️ Não reduz velocidade se o escudo estiver ativo
 
-        // Verifica se passou o cooldown de colisão
         if (Time.time - lastCollisionTime < collisionCooldown)
             return;
 
         lastCollisionTime = Time.time;
 
-        // Multiplica o 'amount' por 2 para reduzir mais a velocidade
         float reduction = amount * 2f;
         moveSpeed = Mathf.Max(0f, moveSpeed - reduction);
         forwardSpeed = Mathf.Max(0f, forwardSpeed - reduction);
 
-        // Registra o instante da colisão
+        // Regista a colisão
         collisionTimes.Add(Time.time);
-        // Remove colisões que ocorreram há mais de collisionThreshold segundos
         collisionTimes.RemoveAll(t => Time.time - t > collisionThreshold);
 
-        Debug.Log("Colisão com inimigo! Contagem em " + collisionThreshold + "s: " + collisionTimes.Count);
+        Debug.Log("Colisão com inimigo! Contagem recente: " + collisionTimes.Count);
 
-        // Ativa o efeito de piscar
         StartCoroutine(BlinkEffect(blinkDuration, blinkCount));
 
         if (collisionTimes.Count >= maxHitsWithinThreshold)
@@ -129,7 +123,7 @@ public class BaleiaSeguirRato : MonoBehaviour
 
     void GameOver()
     {
-        Debug.Log("Game Over - " + maxHitsWithinThreshold + " colisões dentro de " + collisionThreshold + " segundos");
+        Debug.Log("GAME OVER - Demasiadas colisões!");
         SceneManager.LoadScene("GameOver");
     }
 }
