@@ -1708,7 +1708,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1220581346}
-  - component: {fileID: 1220581347}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1732,29 +1731,6 @@ Transform:
   - {fileID: 1934835746}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1220581347
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1220581345}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 337ee9c03725ef143ad826c741249ef1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 2
-  forwardSpeed: 1.5
-  depth: 10
-  deadZoneDistance: 0.15
-  protectionMargin: 0.1
-  recoveryRate: 0.05
-  collisionThreshold: 2
-  maxHitsWithinThreshold: 2
-  blinkDuration: 3
-  blinkCount: 5
-  collisionCooldown: 1
 --- !u!114 &1290302986 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5836944345113822479, guid: 528ce12d6ccf5ce44b7110a3769ee064, type: 3}
@@ -2075,7 +2051,7 @@ MonoBehaviour:
   recoveryRate: 0.05
   collisionThreshold: 2
   maxHitsWithinThreshold: 2
-  blinkDuration: 0.5
+  blinkDuration: 2
   blinkCount: 5
   collisionCooldown: 1
 --- !u!114 &1934835752
@@ -2161,7 +2137,7 @@ MonoBehaviour:
   enemySpawner: {fileID: 410903964}
   powerUpSpawner: {fileID: 1371975447}
   playerSpeedIncreasePerLevel: 1
-  enemySpawnRateIncreasePerLevel: 0.3
+  enemySpawnRateIncreasePerLevel: 0.5
   powerUpDelayIncreasePerLevel: 1
 --- !u!4 &1939415440
 Transform:
