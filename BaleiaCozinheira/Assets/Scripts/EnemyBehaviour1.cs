@@ -39,6 +39,12 @@ public class EnemyBehaviour1 : MonoBehaviour
             if (baleia != null)
             {
                 baleia.ReduceSpeed(0.5f);
+
+                PolvoSeguidor polvo = FindObjectOfType<PolvoSeguidor>();
+                if (polvo != null)
+                {
+                    polvo.AtivarPerseguicao();
+                }
             }
         }
     }
