@@ -5,8 +5,10 @@ public class CoinManager : MonoBehaviour
 {
     public static CoinManager Instance;
 
-    public int coinCount = 0;
+    [Header("HUD")]
     public TextMeshProUGUI coinText;
+
+    private int coinCount = 0;
 
     void Awake()
     {
@@ -16,15 +18,40 @@ public class CoinManager : MonoBehaviour
             Destroy(gameObject);
     }
 
+    void Start()
+    {
+        AtualizarHUD();
+    }
+
+    public void AddCoin()
+    {
+        coinCount++;
+        AtualizarHUD();
+    }
+
     public void AddCoins(int amount)
     {
         coinCount += amount;
-        UpdateUI();
+        if (coinText != null)
+        {
+            coinText.text = coinCount.ToString("D4");
+        }
     }
 
-    void UpdateUI()
+    private void AtualizarHUD()
     {
         if (coinText != null)
-            coinText.text = coinCount.ToString("D6");
+            coinText.text = coinCount.ToString("00000000");
+    }
+
+    public int GetCoinCount()
+    {
+        return coinCount;
+    }
+
+    public void ResetCoins()
+    {
+        coinCount = 0;
+        AtualizarHUD();
     }
 }

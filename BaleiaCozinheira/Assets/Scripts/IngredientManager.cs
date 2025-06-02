@@ -34,11 +34,10 @@ public class IngredientManager : MonoBehaviour
     {
         if (index < 0 || index >= ingredientSprites.Length) return;
 
-        // Atualizar imagem e nomes do ingrediente atual
         if (currentIngredientImg != null)
         {
             currentIngredientImg.sprite = ingredientSprites[index];
-            currentIngredientImg.color = new Color(1f, 1f, 1f, 1f);
+            currentIngredientImg.color = new Color(0f, 0f, 0f, 0.5f); // começa escurecido
         }
 
         if (mapNameTXT != null)
@@ -56,8 +55,15 @@ public class IngredientManager : MonoBehaviour
             Image slot = collectedIngredientSlots[collectedCount];
             slot.sprite = ingredientSprites[index];
             slot.color = new Color(1f, 1f, 1f, 1f); // branco visível
-
             collectedCount++;
         }
+
+        if (currentIngredientImg != null)
+            currentIngredientImg.color = new Color(1f, 1f, 1f, 1f); // mostra imagem atual como visível
+    }
+
+    public int GetIngredientesApanhados()
+    {
+        return collectedCount;
     }
 }

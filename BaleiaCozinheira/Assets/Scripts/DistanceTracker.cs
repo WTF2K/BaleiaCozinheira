@@ -1,31 +1,44 @@
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 public class DistanceTracker : MonoBehaviour
 {
-    public Transform player;
+    public static DistanceTracker Instance;
+
     public TextMeshProUGUI distanceText;
-    private float startingZ;
+    public Transform player;
+
+    private float distance = 0f;
+    private Vector3 lastPosition;
+
+    void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
+    }
 
     void Start()
     {
         if (player == null)
-        {
-            Debug.LogError("Player não atribuído ao DistanceTracker.");
-            enabled = false;
-            return;
-        }
+            player = GameObject.FindGameObjectWithTag("Player").transform;
 
-        startingZ = player.position.z;
+        lastPosition = player.position;
     }
 
     void Update()
     {
-        float distance = player.position.z - startingZ;
-        distance = Mathf.Max(0, distance);
+        float delta = Vector3.Distance(player.position, lastPosition);
+        distance += delta;
+        lastPosition = player.position;
 
-        // Mostra como 00000001, 00000002, etc.
-        distanceText.text = Mathf.FloorToInt(distance).ToString("D8");
+        int displayDistance = Mathf.FloorToInt(distance);
+        distanceText.text = displayDistance.ToString("D8");
+    }
+
+    public int GetDistance()
+    {
+        return Mathf.FloorToInt(distance);
     }
 }
