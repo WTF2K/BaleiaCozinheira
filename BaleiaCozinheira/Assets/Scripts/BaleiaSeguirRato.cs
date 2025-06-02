@@ -70,6 +70,16 @@ public class BaleiaSeguirRato : MonoBehaviour
         // ✅ Recupera sempre a velocidade, com ou sem escudo
         moveSpeed = Mathf.MoveTowards(moveSpeed, originalMoveSpeed, recoveryRate * Time.deltaTime);
         forwardSpeed = Mathf.MoveTowards(forwardSpeed, originalForwardSpeed, recoveryRate * Time.deltaTime);
+
+        // Verifica se já recuperou a velocidade original para recuar o polvo
+        if (Mathf.Approximately(moveSpeed, originalMoveSpeed) && Mathf.Approximately(forwardSpeed, originalForwardSpeed))
+        {
+            PolvoSeguidor polvo = FindObjectOfType<PolvoSeguidor>();
+            if (polvo != null && polvo.IsFollowing()) // ⚠️ Só recua se estiver a seguir
+            {
+                polvo.RecuarParaTrasDaCamera();
+            }
+        }
     }
 
     public void SetShield(bool active)

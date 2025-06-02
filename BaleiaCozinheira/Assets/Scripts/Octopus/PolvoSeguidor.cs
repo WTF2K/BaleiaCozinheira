@@ -82,4 +82,9 @@ public class PolvoSeguidor : MonoBehaviour
         perseguir = false;
         transform.position = cameraTransform.position - cameraTransform.forward * distanciaAtrasDaCamera;
     }
+
+    public bool IsFollowing()
+    {
+        return perseguir;
+    }
 }
