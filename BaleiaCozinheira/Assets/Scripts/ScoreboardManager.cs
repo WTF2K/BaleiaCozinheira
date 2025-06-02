@@ -28,7 +28,7 @@ public class ScoreboardManager : MonoBehaviour
 
         for (int i = 0; i < 10; i++)
         {
-            string key = "score_" + i;
+            string key = $"Top{i}";
             if (PlayerPrefs.HasKey(key))
             {
                 string[] parts = PlayerPrefs.GetString(key).Split('|');
