@@ -38,7 +38,7 @@ public class IngredientManager : MonoBehaviour
         if (currentIngredientImg != null)
         {
             currentIngredientImg.sprite = ingredientSprites[index];
-            currentIngredientImg.color = new Color(0f, 0f, 0f, 0.5f); // começa escurecido
+            currentIngredientImg.color = new Color(1f, 1f, 1f, 1f); // começa escurecido
         }
 
         if (mapNameTXT != null)
