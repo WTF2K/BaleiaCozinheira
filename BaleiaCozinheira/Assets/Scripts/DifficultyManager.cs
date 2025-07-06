@@ -186,9 +186,15 @@ public class DifficultyManager : MonoBehaviour
         {
             Destroy(powerUp);
         }
-        
- 
-        
+
+        // Destroi todas as moedas
+        GameObject[] coins = GameObject.FindGameObjectsWithTag("Coin");
+        Debug.Log("Moedas encontradas: " + coins.Length);
+        foreach (GameObject coin in coins)
+        {
+            Destroy(coin);
+        }
+
         Debug.Log("Todos os inimigos, power-ups e coins foram destruídos.");
     }
 }
