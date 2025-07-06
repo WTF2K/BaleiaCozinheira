@@ -82,9 +82,10 @@ public class DifficultyManager : MonoBehaviour
         if (ingredientType >= 0 && ingredientType <= 6)
         {
             ingredientsCollected[ingredientType]++;
-            
+
             // Destroi todos os inimigos, power-ups e coins existentes
-            
+            ClearExistingObjects();
+
             UpdateDifficulty();
         }
     }
