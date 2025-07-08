@@ -177,12 +177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14bfb4287de681046b45fc4ab6913b26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1934835746}
-  cameraTransform: {fileID: 1105344497}
-  speed: 5
-  rotationSpeed: 5
-  distanciaAtrasDaCamera: 20
-  distanciaFrenteCamera: 1
+  velocidade: 5
 --- !u!136 &234868586
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2061,11 +2056,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coinPrefab: {fileID: 5257096201006798416, guid: ce5a593f40faf3c4da221f31eaeeb167, type: 3}
+  player: {fileID: 1220581346}
+  mainCamera: {fileID: 1105344496}
   spawnInterval: 5
   spawnDistanceAhead: 30
-  spawnAreaWidth: 10
-  spawnHeight: 2
-  maxCoinsOnScene: 50
 --- !u!4 &1867547929
 Transform:
   m_ObjectHideFlags: 0

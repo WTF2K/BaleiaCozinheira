@@ -1,39 +1,40 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CoinSpawner : MonoBehaviour
 {
     public GameObject coinPrefab;
-    public float spawnInterval = 5f;
-    public float spawnDistanceAhead = 30f;
-    public float spawnAreaWidth = 10f;
-    public float spawnHeight = 2f;
-    public int maxCoinsOnScene = 10;
+    public Transform player;
+    public Camera mainCamera;
 
-    private Transform player;
-    private float nextSpawnTime = 0f;
+    public float spawnInterval = 1f;
+    public float spawnDistanceAhead = 20f;
 
     void Start()
     {
-        player = GameObject.FindWithTag("Player")?.transform;
-    }
-
-    void Update()
-    {
-        if (player == null || coinPrefab == null) return;
-
-        if (Time.time >= nextSpawnTime && GameObject.FindGameObjectsWithTag("Coin").Length < maxCoinsOnScene)
+        if (player == null || mainCamera == null)
         {
-            SpawnCoin();
-            nextSpawnTime = Time.time + spawnInterval;
+            Debug.LogError("🚫 CoinSpawner: player ou camera não atribuídos!");
+            return;
         }
+
+        InvokeRepeating(nameof(SpawnCoin), 1f, spawnInterval);
     }
 
     void SpawnCoin()
     {
-        Vector3 spawnPos = player.position + player.forward * spawnDistanceAhead;
-        spawnPos.x += Random.Range(-spawnAreaWidth, spawnAreaWidth);
-        spawnPos.y += spawnHeight;
+        // Viewport coords (0..1) - zona segura no ecrã
+        float viewportX = Random.Range(0.4f, 0.6f);
+        float viewportY = Random.Range(0.4f, 0.6f);
 
-        Instantiate(coinPrefab, spawnPos, Quaternion.identity);
+        float distanceAhead = spawnDistanceAhead;
+
+        Vector3 viewportPoint = new Vector3(viewportX, viewportY, distanceAhead); // distância relativa à câmara
+
+        Vector3 worldPos = mainCamera.ViewportToWorldPoint(viewportPoint);
+
+        Instantiate(coinPrefab, worldPos, Quaternion.identity);
+
+        Debug.Log($"🪙 Moeda criada corretamente no mundo: {worldPos}");
     }
+
 }
