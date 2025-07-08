@@ -42,7 +42,7 @@ public class EnemyBehaviour1 : MonoBehaviour
                 Debug.Log("Baleia colidiu com inimigo!");
 
                 // Reduz velocidade da baleia
-                baleia.ReduceSpeed(1.5f);
+                baleia.ReduceSpeed(0.5f);
 
                 // Ativa o polvo perseguidor
                 PolvoSeguidor polvo = FindObjectOfType<PolvoSeguidor>();
