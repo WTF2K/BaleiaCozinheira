@@ -2,89 +2,51 @@
 
 public class PolvoSeguidor : MonoBehaviour
 {
-    public Transform player;
-    public Transform cameraTransform;
-    public float speed = 5f;
-    public float rotationSpeed = 5f;
-    public float distanciaAtrasDaCamera = 150f;
-    public float distanciaFrenteCamera = 1f;
+    private bool ativo = false;
+    private Transform alvo;
+    private Vector3 offset;
+    private Vector3 posicaoEscondida;
 
-    private bool perseguir = false;
-
-    void Update()
+    void Start()
     {
-        if (player == null || cameraTransform == null) return;
+        // Encontra o jogador (baleia)
+        alvo = GameObject.FindGameObjectWithTag("Player")?.transform;
 
-        if (!perseguir)
+        // Define posição escondida atrás da câmara
+        if (Camera.main != null)
         {
-            // Fica atrás da câmara enquanto não está a perseguir
-            Vector3 atrasDaCamera = cameraTransform.position - cameraTransform.forward * distanciaAtrasDaCamera;
-            transform.position = Vector3.Lerp(transform.position, atrasDaCamera, Time.deltaTime * 2f);
+            posicaoEscondida = Camera.main.transform.position - Camera.main.transform.forward * 20f;
+            posicaoEscondida.z -= 10f;
         }
         else
         {
-            // Persegue a baleia
-            Vector3 direction = (player.position - transform.position).normalized;
-            Quaternion toRotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
-
-            transform.position += transform.forward * speed * Time.deltaTime;
-        }
-    }
-
-    public void AtivarPerseguicao()
-    {
-        // Já está a perseguir? Não fazer nada
-        if (perseguir) return;
-
-        if (cameraTransform == null || player == null)
-        {
-            Debug.LogWarning("Faltam referências no PolvoSeguidor!");
-            return;
+            posicaoEscondida = new Vector3(0, -1000, 0); // fallback
         }
 
-        // Coloca à frente da câmara apenas na primeira ativação
-        Vector3 frenteDaCamera = cameraTransform.position + cameraTransform.forward * distanciaFrenteCamera;
-        frenteDaCamera.y = player.position.y;
-
-        transform.position = frenteDaCamera;
-        perseguir = true;
-
-        Debug.Log("🐙 Polvo apareceu à frente da câmara e iniciou perseguição!");
+        EsconderPolvo(); // Começa escondido
     }
 
-    void OnTriggerEnter(Collider other)
+    void Update()
     {
-        if (other.CompareTag("Player"))
-        {
-            Debug.Log("🐙 Polvo perseguidor colidiu com a baleia!");
+        if (!ativo || alvo == null) return;
 
-            // Segurança: verifica se as instâncias existem
-            if (IngredientManager.Instance == null || DistanceTracker.Instance == null || CoinManager.Instance == null)
-            {
-                Debug.LogWarning("⚠️ Uma das instâncias está null ao tentar guardar dados!");
-                return;
-            }
-
-            // Guarda os dados no PlayerPrefs
-            PlayerPrefs.SetInt("GameOver_Ingredients", IngredientManager.Instance.GetIngredientesApanhados());
-            PlayerPrefs.SetInt("GameOver_Distance", DistanceTracker.Instance.GetDistance());
-            PlayerPrefs.SetInt("GameOver_Coins", CoinManager.Instance.GetCoinCount());
-            PlayerPrefs.Save();
-
-            // Muda para a cena de Game Over
-            UnityEngine.SceneManagement.SceneManager.LoadScene("GameOver");
-        }
+        Vector3 novaPosicao = alvo.position + offset;
+        novaPosicao.z = alvo.position.z - 10f;
+        transform.position = Vector3.Lerp(transform.position, novaPosicao, Time.deltaTime);
     }
 
-    public void RecuarParaTrasDaCamera()
+    public void AtivarPolvo(Transform novoAlvo)
     {
-        perseguir = false;
-        transform.position = cameraTransform.position - cameraTransform.forward * distanciaAtrasDaCamera;
+        alvo = novoAlvo;
+        offset = transform.position - alvo.position;
+        ativo = true;
+        gameObject.SetActive(true);
     }
 
-    public bool IsFollowing()
+    public void EsconderPolvo()
     {
-        return perseguir;
+        ativo = false;
+        transform.position = posicaoEscondida;
+        gameObject.SetActive(false);
     }
 }

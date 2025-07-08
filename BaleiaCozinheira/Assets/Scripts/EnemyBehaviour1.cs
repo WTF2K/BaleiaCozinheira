@@ -41,9 +41,12 @@ public class EnemyBehaviour1 : MonoBehaviour
                 baleia.ReduceSpeed(0.5f);
 
                 PolvoSeguidor polvo = FindObjectOfType<PolvoSeguidor>();
-                if (polvo != null)
+                GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+                if (polvo != null && player != null)
                 {
-                    polvo.AtivarPerseguicao();
+                    Debug.Log("Ativando polvo seguidor!");
+                    polvo.AtivarPolvo(player.transform);
                 }
             }
         }
