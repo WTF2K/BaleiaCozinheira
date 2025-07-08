@@ -30,6 +30,40 @@ public class IngredientManager : MonoBehaviour
             Destroy(gameObject);
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            if (collectedCount < ingredientSprites.Length)
+            {
+                RegistarIngredienteApanhado(collectedCount);
+
+                // Avançar segmento manualmente
+                Segments segments = FindObjectOfType<Segments>();
+                if (segments != null)
+                {
+                    segments.SetSegmentIndex(collectedCount); // collectedCount já foi incrementado
+                    // Reposiciona o jogador no início do novo segmento
+                    Transform playerTransform = GameObject.FindWithTag("Player")?.transform;
+                    if (playerTransform != null)
+                    {
+                        GameObject[] ativos = segments.GetActiveSegmentsArray();
+                        if (ativos.Length > 0 && ativos[0] != null)
+                        {
+                            Vector3 pos = ativos[0].transform.position;
+                            pos.y = playerTransform.position.y;
+                            playerTransform.position = pos;
+                        }
+                        else
+                        {
+                            playerTransform.position = Vector3.zero;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     // Atualiza o ingrediente que está atualmente disponível para apanhar
     public void AtualizarIngredienteAtual(int index)
     {
@@ -91,7 +125,7 @@ public class IngredientManager : MonoBehaviour
 
 
             Debug.Log("Todos os ingredientes apanhados! A mudar para a cena BossFight...");
-            SceneManager.LoadScene("BossFight");
+            SceneManager.LoadScene("CutScene Final");
         }
     }
 
