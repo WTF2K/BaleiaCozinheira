@@ -36,21 +36,28 @@ public class EnemyBehaviour1 : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             BaleiaSeguirRato baleia = other.GetComponent<BaleiaSeguirRato>();
+
             if (baleia != null)
             {
-                baleia.ReduceSpeed(0.5f);
+                Debug.Log("Baleia colidiu com inimigo!");
 
+                // Reduz velocidade da baleia
+                baleia.ReduceSpeed(1.5f);
+
+                // Ativa o polvo perseguidor
                 PolvoSeguidor polvo = FindObjectOfType<PolvoSeguidor>();
-                GameObject player = GameObject.FindGameObjectWithTag("Player");
-
-                if (polvo != null && player != null)
+                if (polvo != null)
                 {
-                    Debug.Log("Ativando polvo seguidor!");
-                    polvo.AtivarPolvo(player.transform);
+                    polvo.AtivarPolvo(baleia.transform);
+                }
+                else
+                {
+                    Debug.LogWarning("PolvoSeguidor não encontrado!");
                 }
             }
         }
     }
+
 
 }
 

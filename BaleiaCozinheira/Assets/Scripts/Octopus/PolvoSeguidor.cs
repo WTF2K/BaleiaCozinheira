@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PolvoSeguidor : MonoBehaviour
 {
@@ -7,12 +8,13 @@ public class PolvoSeguidor : MonoBehaviour
     private Vector3 offset;
     private Vector3 posicaoEscondida;
 
+    public float velocidade = 5f; // Adiciona velocidade visível no inspector
+
     void Start()
     {
-        // Encontra o jogador (baleia)
         alvo = GameObject.FindGameObjectWithTag("Player")?.transform;
 
-        // Define posição escondida atrás da câmara
+        // Verifica se a câmara tem tag "MainCamera"
         if (Camera.main != null)
         {
             posicaoEscondida = Camera.main.transform.position - Camera.main.transform.forward * 20f;
@@ -20,33 +22,59 @@ public class PolvoSeguidor : MonoBehaviour
         }
         else
         {
-            posicaoEscondida = new Vector3(0, -1000, 0); // fallback
+            posicaoEscondida = new Vector3(0, -1000, 0); // fallback escondido
         }
 
-        EsconderPolvo(); // Começa escondido
+        transform.position = posicaoEscondida;
+        ativo = false;
+
+        // ⚠️ NÃO usar SetActive(false)! Só esconder fora de viewport
     }
 
     void Update()
     {
-        if (!ativo || alvo == null) return;
+        if (!ativo || alvo == null)
+            return;
 
-        Vector3 novaPosicao = alvo.position + offset;
-        novaPosicao.z = alvo.position.z - 10f;
-        transform.position = Vector3.Lerp(transform.position, novaPosicao, Time.deltaTime);
+        Vector3 direction = alvo.position - transform.position;
+        transform.position += direction.normalized * velocidade * Time.deltaTime;
     }
 
-    public void AtivarPolvo(Transform novoAlvo)
+    public void AtivarPolvo(Transform alvoPlayer)
     {
-        alvo = novoAlvo;
-        offset = transform.position - alvo.position;
+        Debug.Log("AtivarPolvo foi chamado!");
+
+        if (alvoPlayer == null)
+        {
+            Debug.LogError("O alvoPlayer é null!");
+            return;
+        }
+
+        this.alvo = alvoPlayer;
         ativo = true;
-        gameObject.SetActive(true);
+
+        if (Camera.main != null)
+        {
+            // Coloca o polvo ATRÁS da câmara no eixo Z
+            Vector3 atrasDaCamera = Camera.main.transform.position - Camera.main.transform.forward * 10f;
+            atrasDaCamera.z = alvo.position.z - 20f; // bem atrás da baleia
+            transform.position = atrasDaCamera;
+        }
+
+        Debug.Log("Polvo ativado atrás da câmara na posição: " + transform.position);
+    }
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            Debug.Log("Polvo colidiu com a baleia! Ir para GameOver.");
+            SceneManager.LoadScene("GameOver");
+        }
     }
 
     public void EsconderPolvo()
     {
         ativo = false;
         transform.position = posicaoEscondida;
-        gameObject.SetActive(false);
     }
 }
