@@ -11,6 +11,18 @@ public class MainMenu : MonoBehaviour
     {
         SceneManager.LoadScene("Game");
     }
+    public void GoToTutorial()
+    {
+        SceneManager.LoadScene("Tutorial");
+    }
+    public void GoToTutorial1()
+    {
+        SceneManager.LoadScene("Tutorial_1");
+    }
+    public void GoToTutorial2()
+    {
+        SceneManager.LoadScene("Tutorial_2");
+    }
     public void GoToIntroScene()
     {
         SceneManager.LoadScene("IntroScene");

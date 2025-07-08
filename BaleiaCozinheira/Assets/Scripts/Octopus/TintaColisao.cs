@@ -8,11 +8,14 @@ public class TintaColisao : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log(">> Tinta atingiu o player!");
-
-            // Escurece o HUD através do HUDManager
-            if (HUDManager.Instance != null)
+            // Verifica que é mesmo a baleia
+            BaleiaSeguirRato baleia = other.GetComponent<BaleiaSeguirRato>();
+            if (baleia != null)
+            {
+                Debug.Log("Colisão com tinta confirmada.");
                 HUDManager.Instance.EscurecerHUD(duracaoEscurecer);
+                Destroy(gameObject);
+            }
         }
     }
 }

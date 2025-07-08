@@ -75,9 +75,9 @@ public class BaleiaSeguirRato : MonoBehaviour
         if (Mathf.Approximately(moveSpeed, originalMoveSpeed) && Mathf.Approximately(forwardSpeed, originalForwardSpeed))
         {
             PolvoSeguidor polvo = FindObjectOfType<PolvoSeguidor>();
-            if (polvo != null && polvo.IsFollowing()) // ⚠️ Só recua se estiver a seguir
+            if (polvo != null)
             {
-                polvo.RecuarParaTrasDaCamera();
+                polvo.EsconderPolvo();
             }
         }
     }

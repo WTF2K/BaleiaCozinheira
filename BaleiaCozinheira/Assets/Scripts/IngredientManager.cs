@@ -65,7 +65,7 @@ public class IngredientManager : MonoBehaviour
         PolvoSeguidor polvo = FindObjectOfType<PolvoSeguidor>();
         if (polvo != null)
         {
-            polvo.RecuarParaTrasDaCamera();
+            polvo.EsconderPolvo();
         }
 
         // ⚠️ Verifica se já foram apanhados todos
