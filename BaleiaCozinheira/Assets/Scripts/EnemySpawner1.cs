@@ -67,6 +67,7 @@ public class EnemySpawner1 : MonoBehaviour
         int idx = Random.Range(0, enemyPrefabs.Length);
         var e = Instantiate(enemyPrefabs[idx], pos, Quaternion.Euler(0,180,0));
         spawnedEnemies.Add(e);
+        e.tag = "Enemy";
     }
 
     void DespawnPassedEnemies()
