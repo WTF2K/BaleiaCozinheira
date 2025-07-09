@@ -37,6 +37,7 @@ public class IngredientManager : MonoBehaviour
             if (collectedCount < ingredientSprites.Length)
             {
                 RegistarIngredienteApanhado(collectedCount);
+                AtualizarIngredienteAtual(collectedCount);
 
                 // Avançar segmento manualmente
                 Segments segments = FindObjectOfType<Segments>();
@@ -56,7 +57,26 @@ public class IngredientManager : MonoBehaviour
                         }
                         else
                         {
-                            playerTransform.position = Vector3.zero;
+                            // Verificações de segurança
+                            if (IngredientManager.Instance == null || DistanceTracker.Instance == null || CoinManager.Instance == null)
+                            {
+                                Debug.LogWarning("Alguma instância está null!");
+                                return;
+                            }
+
+                            // Obter dados
+                            int ingredientes = IngredientManager.Instance.GetIngredientesApanhados();
+                            int distancia = DistanceTracker.Instance.GetDistance();
+                            int moedas = CoinManager.Instance.GetCoinCount();
+
+                            // Guardar no PlayerPrefs
+                            PlayerPrefs.SetInt("GameOver_Ingredients", ingredientes);
+                            PlayerPrefs.SetInt("GameOver_Distance", distancia);
+                            PlayerPrefs.SetInt("GameOver_Coins", moedas);
+                            PlayerPrefs.Save();
+
+                            Debug.Log($"[PauseManager] A guardar resultado: Ingredientes={ingredientes}, Distância={distancia}, Moedas={moedas}");
+                            SceneManager.LoadScene("CutScene Final");
                         }
                     }
                 }

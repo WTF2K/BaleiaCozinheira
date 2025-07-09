@@ -43,4 +43,10 @@ public class MainMenu : MonoBehaviour
     {
         Application.Quit();
     }
+
+    public void GoToEndGame()
+    {
+        // Ir para a cena GameOver
+        SceneManager.LoadScene("GameOver");
+    }
 }
